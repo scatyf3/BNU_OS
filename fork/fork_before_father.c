@@ -4,7 +4,7 @@
 
 int main() {
     pid_t pid1, pid2;
-    printf("hello");
+    printf("hello\n");
     // 创建第一个子进程
     pid1 = fork();
     if (pid1 == 0) {
