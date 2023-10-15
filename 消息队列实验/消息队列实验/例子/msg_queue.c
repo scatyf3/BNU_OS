@@ -32,7 +32,7 @@ int main(){
         perror("fork");
         exit(1);
     } else if (pid2 == 0) {
-        CLIENT();
+        SERVER();
         perror("execlp");
         exit(1);
     }
@@ -61,33 +61,26 @@ struct s_msg{
 
 int SERVER(){
 	int msgqid,pid,c1_pid,c2_pid;
-    struct s_msg msg1;
-    struct s_msg msg2;
-    if ((msgqid=msgget(MSGKEY,0777))==-1)     /*建立消息队列失败*/
+    struct s_msg msg;
+    if ((msgqid=msgget(MSGKEY,0777|IPC_CREAT|IPC_EXCL))==-1)     /*建立消息队列失败*/
 	{
-		printf("This message queue does not exist. \n");
+		printf("This message queue does not exist in server. \n");
+        perror("Error");
 		return 1;
 	}
-    int flag1,flag2=1;
+    int flag=1;
     char buffer[100];
     pid=getpid();
-    while(flag1||flag2){
-        c1_pid=(msgqid,&msg1,256,1,0);
-        c2_pid=(msgqid,&msg2,256,1,0);
+    while(flag){
+        c1_pid=(msgqid,&msg,256,1,0);
         //todo:get server and client pid somehow
 
-        if(msg1.id==1){
-            snprintf(buffer, sizeof(buffer),"(SERVER %d) received message %d from CLIENT %d\n",pid,msg1.id,c1_pid);
-            flag1=0;
+        if(msg.id==1){
+            snprintf(buffer, sizeof(buffer),"(SERVER %d) received message %d from CLIENT %d\n",pid,msg.id,c1_pid);
+            flag=0;
             //todo:msgsnd
-            strcpy(msg1.msg_str, buffer);
-            msgsnd(msgqid,&msg1,sizeof(msg1),0);
-        }
-        if(msg2.id==1){
-            snprintf(buffer, sizeof(buffer),"(SERVER %d) received message %d from CLIENT %d\n",pid,msg2.id,c2_pid);
-            flag2=0;
-            strcpy(msg2.msg_str, buffer);
-            msgsnd(msgqid,&msg2,sizeof(msg2),0);
+            strcpy(msg.msg_str, buffer);
+            msgsnd(msgqid,&msg,sizeof(msg),0);
         }
     }
 
@@ -104,7 +97,8 @@ int CLIENT(){
     int msgqid;
     if ((msgqid=msgget(MSGKEY,0777))==-1)     /*建立消息队列失败*/
 	{
-		printf("This message queue does not exist. \n");
+		printf("This message queue does not exist in client. \n");
+        perror("Error");
 		exit(1);
 	}
 
@@ -115,10 +109,10 @@ int CLIENT(){
         sprintf(msg.msg_str, "(CLIENT1 %d) sent message %d\n", getpid(), i);
         msgsnd(msgqid, &msg, 1024, 0); // 发送消息 msg 到 msgid 消息队列
 
-        printf("(CLIENT1 %d) sent message %d\n", getpid(), i);
+        printf("(CLIENT %d) sent message %d\n", getpid(), i);
 
         msgrcv(msgqid, &msg, 1024, 0, 0); // 接收消息
-        printf("(CLIENT1 %d) received return message %d from SERVER%d\n", getpid(), i, msg.id);
+        printf("(CLIENT %d) received return message %d from SERVER%d\n", getpid(), i, msg.id);
    }
 
 
