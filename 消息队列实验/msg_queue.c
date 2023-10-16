@@ -107,10 +107,10 @@ int CLIENT(){
    for(int i=10;i>0;i--){
         // 对消息内容进行赋值
         sprintf(msg.msg_str, "(CLIENT1 %d) sent message %d\n", getpid(), i);
+        msg.id=i;
+        //为id赋值
         msgsnd(msgqid, &msg, 1024, 0); // 发送消息 msg 到 msgid 消息队列
-
-        printf("(CLIENT %d) sent message %d\n", getpid(), i);
-
+        //printf("(CLIENT %d) sent message %d\n", getpid(), i);
         msgrcv(msgqid, &msg, 1024, 0, 0); // 接收消息
         printf("(CLIENT %d) received return message %d from SERVER%d\n", getpid(), i, msg.id);
    }
