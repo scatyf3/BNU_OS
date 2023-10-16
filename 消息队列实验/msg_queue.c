@@ -62,7 +62,7 @@ struct s_msg{
 int SERVER(){
 	int msgqid,pid,c1_pid,c2_pid;
     struct s_msg msg;
-    if ((msgqid=msgget(MSGKEY,0777|IPC_CREAT|IPC_EXCL))==-1)     /*建立消息队列失败*/
+    if ((msgqid=msgget(MSGKEY,0777|IPC_CREAT))==-1)     /*建立消息队列失败*/
 	{
 		printf("This message queue does not exist in server. \n");
         perror("Error");
@@ -72,15 +72,15 @@ int SERVER(){
     char buffer[100];
     pid=getpid();
     while(flag){
-        c1_pid=(msgqid,&msg,256,1,0);
+        c1_pid=msgrcv(msgqid,&msg,256,1,0);
         //todo:get server and client pid somehow
+        snprintf(buffer, sizeof(buffer),"(SERVER %d) received message %d from CLIENT %d\n",pid,msg.id,c1_pid);
+        //todo:msgsnd
+        strcpy(msg.msg_str, buffer);
+        msgsnd(msgqid,&msg,sizeof(msg),0);
 
         if(msg.id==1){
-            snprintf(buffer, sizeof(buffer),"(SERVER %d) received message %d from CLIENT %d\n",pid,msg.id,c1_pid);
-            flag=0;
-            //todo:msgsnd
-            strcpy(msg.msg_str, buffer);
-            msgsnd(msgqid,&msg,sizeof(msg),0);
+           flag=0; 
         }
     }
 
