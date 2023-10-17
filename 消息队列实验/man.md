@@ -1,3 +1,9 @@
+# fork
+fork一个新进程
+* 在父进程中，fork()返回新创建子进程的进程ID
+* 在子进程中，fork()返回0
+
+
 # msgget
 原型：`msgget(key_t key,int flag)`
 参数含义：
@@ -33,3 +39,40 @@
     * IPC_SET：设置消息队列的状态信息，使用 buf 指向的结构体中的值。
     * IPC_RMID：从系统中删除消息队列。
 * buf：指向存储消息队列状态信息的结构体。
+
+其中IPC_STAT可以用来获得另外一个进程的pid，示例代码如下：
+```c
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <stdio.h>
+
+int main()
+{
+    int msqid;
+    key_t key;
+    struct msqid_ds buf;
+
+    key = ftok(".", 'a');
+    msqid = msgget(key, 0666 | IPC_CREAT);
+
+    if (msgctl(msqid, IPC_STAT, &buf) == -1)
+    {
+        perror("msgctl");
+        return 1;
+    }
+
+    printf("The message queue's current status:\n");
+    printf("Number of messages in queue: %ld\n", buf.msg_qnum);
+    printf("Maximum number of bytes allowed in queue: %ld\n", buf.msg_qbytes);
+    printf("PID of last msgsnd: %d\n", buf.msg_lspid);
+    printf("PID of last msgrcv: %d\n", buf.msg_lrpid);
+
+    return 0;
+}
+
+```
+
+也可以直接将pid作为全局变量储存？fork时创建全局变量的副本，但是对其的修改不会被共享，对于这一特性，记录pid倒是正适合。[source](https://stackoverflow.com/questions/4298678/after-forking-are-global-variables-shared)
+
+
