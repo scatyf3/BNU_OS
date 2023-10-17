@@ -44,10 +44,24 @@ int main(){
  ,然后发送一个返回消息给对应CLIENT端，显示一句“(SERVER *SERVER端pid*) sent return message *消息的编号* of CLIENT *CLIENT端pid*”。
 */
 
+
+/*
+请设计消息结构struct msgform，每个消息至少包含消息类型、消息编号、进程pid;
+请设计消息类型，保证：服务端可以接收所有客户端发给服务端的消息；
+每个客户端只能接收服务端发给自己的返回消息，而不会接收发给其他客户端的消息；
+服务端和客户端都不能接收自己发出去的消息。
+*/
 struct s_msg{
     long id;
-    char msg_str[MSGSIZE];
+    struct msgform{
+        int type;
+        int msg_id;
+        int sender_pid;
+    } msgform;
 };
+
+//c->s type=1
+//s->c type=0
 
 int SERVER(){
     //让server端真正跑起来...
@@ -104,7 +118,6 @@ int CLIENT(){
         perror("Client msg_queue Error:");
 		exit(1);
 	}
-   strcpy(msg.msg_str,"Some random msg");
    for(int i=10;i>0;i--){
         // 对消息内容进行赋值
         //sprintf(msg.msg_str, "(CLIENT1 %d) sent message %d\n", getpid(), i);->没必要这样

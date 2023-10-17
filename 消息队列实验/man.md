@@ -75,4 +75,24 @@ int main()
 
 也可以直接将pid作为全局变量储存？fork时创建全局变量的副本，但是对其的修改不会被共享，对于这一特性，记录pid倒是正适合。[source](https://stackoverflow.com/questions/4298678/after-forking-are-global-variables-shared)
 
+# 命令行工具
+## ipcs
+在命令行里返回全部的消息队列和状态，示例如下：
+```shell
+juanitahowe@JuanitadeMacBook-Air 消息队列实验 % ipcs
+IPC status from <running system> as of Tue Oct 17 11:05:13 CST 2023
+T     ID     KEY        MODE       OWNER    GROUP
+Message Queues:
+q  65536 0x0000004b --rw-rw-rw- juanitahowe    staff
+
+T     ID     KEY        MODE       OWNER    GROUP
+Shared Memory:
+
+T     ID     KEY        MODE       OWNER    GROUP
+Semaphores:
+
+```
+
+## ipcrm -q <queue_id>
+删除某个指定id的消息队列
 
