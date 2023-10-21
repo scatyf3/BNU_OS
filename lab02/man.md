@@ -3,6 +3,11 @@ fork一个新进程
 * 在父进程中，fork()返回新创建子进程的进程ID
 * 在子进程中，fork()返回0
 
+# message queue
+POSIX.1‐2017 defination:
+3.226 Message Queue 3.226 消息队列
+In the context of programmatic message passing, an object to which messages can be added and removed. Messages may be removed in the order in which they were added or in priority order.
+在编程消息传递的上下文中，可以向其添加和删除消息的对象。邮件可以按添加顺序或优先级顺序删除。
 
 # msgget
 原型：`msgget(key_t key,int flag)`

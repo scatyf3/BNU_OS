@@ -9,6 +9,11 @@
 #define MSGKEY 75
 #define MSGSIZE 256
 
+#define StoC 0
+#define CtoS 1
+//c->s type=1
+//s->c type=0
+
 int CLIENT();
 int SERVER();
 
@@ -54,24 +59,22 @@ int main(){
 struct s_msg{
     long id;
     struct msgform{
-        int type;
         int msg_id;
         int sender_pid;
     } msgform;
 };
 
-//c->s type=1
-//s->c type=0
+
 
 int SERVER(){
     //让server端真正跑起来...
     printf("server is called");
 	int msgqid,pid,c1_pid;
-    struct s_msg msg;
-    printf("i'm before msqid_ds");
+    struct s_msg rcv_msg;
+    struct s_msg snd_msg;
+    snd_msg.id=StoC;
     //这个地方有问题，无法继续运行？
     struct msqid_ds buf={0};
-    printf("i'm after msqid_ds");
 
     if ((msgqid=msgget(MSGKEY,0777|IPC_CREAT))==-1)     /*建立消息队列失败*/
 	{
@@ -80,25 +83,28 @@ int SERVER(){
 		return 1;
 	}
     pid=getpid();
-
+    int counter=100;
     printf("server init the server");
     
-    while(1){
+    while(counter>0){
         printf("server is looping");
-        msgrcv(msgqid,&msg,1024,1,0);
-        //todo:get server and client pid somehow
+        msgrcv(msgqid,&rcv_msg,sizeof(rcv_msg),CtoS,0);
         msgctl(msgqid, IPC_STAT, &buf);
         c1_pid=buf.msg_lspid;
         //最后发送消息的pid，即client pid
         //snprintf(buffer, sizeof(buffer),"(SERVER %d) received message %d from CLIENT %d\n",pid,msg.id,c1_pid);
         //todo: server端打印出消息
-        printf("(SERVER %d) received message %d from CLIENT %d\n",pid,msg.id,c1_pid);
-        msgsnd(msgqid,&msg,sizeof(msg),0);
-        if(msg.id==1){
+        printf("(SERVER %d) received message %d from CLIENT %d\n",pid,rcv_msg.msgform.msg_id,c1_pid);
+        msgsnd(msgqid,&snd_msg,sizeof(snd_msg),0);
+        pid=getpid();
+        printf("(SERVER %d) send return message %d to CLIENT %d\n",pid,snd_msg.msgform.msg_id,c1_pid);
+        if(rcv_msg.msgform.msg_id==1){
            break; 
         }
+        counter--;
     }
     //todo：server端结束运行时，关闭消息队列
+    return 0;
 }
 
 int CLIENT(){
@@ -110,7 +116,9 @@ int CLIENT(){
     再发送下一条消息。
     */
     int msgqid,s_pid;
-    struct s_msg msg;
+    struct s_msg rcv_msg;
+    struct s_msg snd_msg;
+    snd_msg.id=CtoS;
     struct msqid_ds buf={0};
     if ((msgqid=msgget(MSGKEY,0777))==-1)     /*建立消息队列失败*/
 	{
@@ -121,13 +129,14 @@ int CLIENT(){
    for(int i=10;i>0;i--){
         // 对消息内容进行赋值
         //sprintf(msg.msg_str, "(CLIENT1 %d) sent message %d\n", getpid(), i);->没必要这样
-        msg.id=i;
         //为id赋值
-        msgsnd(msgqid, &msg, 1024, 0); // 发送消息 msg 到 msgid 消息队列
+        snd_msg.msgform.msg_id=i;
+        msgsnd(msgqid, &snd_msg, sizeof(snd_msg), 0); // 发送消息 msg 到 msgid 消息队列
         printf("(CLIENT %d) sent message %d\n", getpid(), i);
-        msgrcv(msgqid, &msg, 1024, 0, 0); // 接收消息
+        msgrcv(msgqid, &rcv_msg, sizeof(rcv_msg), StoC, 0); // 接收消息
         msgctl(msgqid, IPC_STAT, &buf);
         s_pid=buf.msg_lspid;
         printf("(CLIENT %d) received return message %d from SERVER%d\n", getpid(), i, s_pid);
    }
+   return 0;
 }

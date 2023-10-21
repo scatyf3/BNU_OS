@@ -1,0 +1,39 @@
+(CLIENT 24386) sent message 10
+server is runningserver is calledi'm before msqid_dsi'm after msqid_dsserver init the serverserver is looping(SERVER 393216) received message 10 from CLIENT 24386
+(SERVER 393216) send return message 10 to CLIENT 24386
+server is looping(SERVER 393216) received message 10 from CLIENT 24240
+(SERVER 393216) send return message 10 to CLIENT 24240
+server is runningserver is calledi'm before msqid_dsi'm after msqid_dsserver init the serverserver is looping(SERVER 393216) received message 10 from CLIENT 24240
+(SERVER 393216) send return message 10 to CLIENT 24240
+server is looping(SERVER 393216) received message 10 from CLIENT 24239
+(SERVER 393216) send return message 10 to CLIENT 24239
+server is looping(SERVER 393216) received message 10 from CLIENT 24239
+(SERVER 393216) send return message 10 to CLIENT 24239
+(CLIENT 24345) received return message 10 from SERVER24240
+(CLIENT 24345) sent message 9
+(CLIENT 24345) received return message 9 from SERVER24345
+(CLIENT 24345) sent message 8
+(CLIENT 24345) received return message 8 from SERVER24345
+(CLIENT 24345) sent message 7
+server is runningserver is calledi'm before msqid_dsi'm after msqid_dsserver init the serverserver is looping(SERVER 24385) received message -1925087124 from CLIENT 24345
+(SERVER 24385) send return message -1925087124 to CLIENT 24345
+(CLIENT 24345) received return message 7 from SERVER24345
+(CLIENT 24345) sent message 6
+server is looping(SERVER 24385) received message -1925087124 from CLIENT 24345
+(SERVER 24385) send return message -1925087124 to CLIENT 24345
+server is looping(SERVER 393216) received message 6 from CLIENT 24239
+(SERVER 393216) send return message 6 to CLIENT 24239
+server is looping(SERVER 393216) received message 6 from CLIENT 24239
+(SERVER 393216) send return message 6 to CLIENT 24239
+server is looping(SERVER 393216) received message 6 from CLIENT 24239
+(SERVER 393216) send return message 6 to CLIENT 24239
+server is looping(SERVER 393216) received message 6 from CLIENT 24239
+(SERVER 393216) send return message 6 to CLIENT 24239
+server is looping(SERVER 393216) received message 6 from CLIENT 24239
+(SERVER 393216) send return message 6 to CLIENT 24239
+server is looping(SERVER 393216) received message 6 from CLIENT 24239
+(SERVER 393216) send return message 6 to CLIENT 24239
+server is looping(SERVER 393216) received message 6 from CLIENT 24239
+(SERVER 393216) send return message 6 to CLIENT 24239
+server is looping(SERVER 393216) received message 6 from CLIENT 24239
+(SERVER 393216) send return message 6 to CLIENT 24239
