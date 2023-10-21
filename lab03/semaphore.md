@@ -105,4 +105,4 @@ struct seminfo *_buf;       /*buffer for IPC_INFO*/
 
 返回值：正确时根据cmd的的不同返回值或0，错误时返回-1。
 
-例如：撤销信号量集 semctl**(semid ,IPC_RMID ,0)
+例如：撤销信号量集 semctl(semid ,IPC_RMID ,0)
