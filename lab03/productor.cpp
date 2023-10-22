@@ -40,6 +40,7 @@ int main(){
             shmid = buffer_queue.get_buf_in();
             std::cin>>local_buffer;
             
+            
 
 
         }
