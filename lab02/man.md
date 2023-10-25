@@ -9,6 +9,25 @@ POSIX.1‐2017 defination:
 In the context of programmatic message passing, an object to which messages can be added and removed. Messages may be removed in the order in which they were added or in priority order.
 在编程消息传递的上下文中，可以向其添加和删除消息的对象。邮件可以按添加顺序或优先级顺序删除。
 
+## 本部分参考资料
+- [某手册网站](https://linux.die.net/man/2/msgsnd)
+- [man7](https://man7.org/index.html)
+
+总而言之还是建议看英文原版一手资料手册，中文教程和ai回答的很多细节模糊，会导致debug非常难办
+
+# msg_queue 里传递的消息格式
+在msg_queue里传递的格式有特定的要求:
+* 结构体里的第一个元素是一个数据类型为long的message type
+* 实际接收消息的缓冲区，建议为一个数组或者结构体较为便利，具体细节参考[这个回答](https://stackoverflow.com/questions/66843903/structure-of-msg-in-ipc-message-queues)
+
+```c
+struct msgbuf {
+    long mtype;       /* message type, must be > 0 */
+    char mtext[1];    /* message data */
+};
+```
+
+
 # msgget
 原型：`msgget(key_t key,int flag)`
 参数含义：
@@ -18,67 +37,26 @@ In the context of programmatic message passing, an object to which messages can 
 注意事项：server端flag=`0777|IPC_CREAT`，0777代表文件权限，含义是表示创建的消息队列的访问权限为所有者、所属组和其他用户都具有读、写和执行权限，IPC_CREAT代表创建队列。而client端flag=`0777`，无需重复创建新的队列
 
 # msgrcv
-原型：`size_t msgrcv(int msgqid, void *msgp, size_t maxcnt, long msgtype, int flag)`
+原型：`ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,int msgflg);`
 参数含义：
 * msgqid：消息队列的标识符。
 * msgp：指向接收消息的缓冲区。
-* maxcnt：接收消息缓冲区的大小。
-* msgtype：指定要接收的消息类型。如果为 0，则表示接收队列中的第一条消息。
-* flag：控制函数行为的标志，取值可以是 0 或 IPC_NOWAIT。
-函数返回值为成功接收到的消息字节数
+* msgsz:需要接收消息的大小，注意，不包括mtype
+* msgtyp：指定要接收的消息类型。
+    * 如果为 0，则表示接收队列中的第一条消息。
+    * 如果不为0，接受mtype==msgtype的消息
+* msgflg：控制函数行为的标志，取值可以是 0 或 IPC_NOWAIT。
+* 函数返回值为成功接收到的消息字节数
 
 # msgsnd
-原型：`int msgsnd(int msgid, const void *msgp, size_t count, int flag)`
+原型：`int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg);`
 参数含义：
 * msgid：消息队列的标识符。
 * msgp：指向要发送的消息的缓冲区。
-* count：要发送的消息的长度。
-* flag：控制函数行为的标志，取值可以是 0 或 IPC_NOWAIT。
-函数返回值为 0 表示成功，如果出错则返回 -1
+* msgsz：发送消息的长度
+* msgflg：控制函数行为的标志，取值可以是 0 或 IPC_NOWAIT。
+* 函数返回值为 0 表示成功，如果出错则返回 -1
 
-# msgctl
-原型：`int msgctl(int msgid, int cmd, struct msqid_ds *buf)`
-* msgid：消息队列的标识符。
-* cmd：指定要对消息队列进行的操作。常见的操作包括：
-    * IPC_STAT：获取消息队列的状态信息，将其存储在 buf 指向的结构体中。
-    * IPC_SET：设置消息队列的状态信息，使用 buf 指向的结构体中的值。
-    * IPC_RMID：从系统中删除消息队列。
-* buf：指向存储消息队列状态信息的结构体。
-
-其中IPC_STAT可以用来获得另外一个进程的pid，示例代码如下：
-```c
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
-#include <stdio.h>
-
-int main()
-{
-    int msqid;
-    key_t key;
-    struct msqid_ds buf;
-
-    key = ftok(".", 'a');
-    msqid = msgget(key, 0666 | IPC_CREAT);
-
-    if (msgctl(msqid, IPC_STAT, &buf) == -1)
-    {
-        perror("msgctl");
-        return 1;
-    }
-
-    printf("The message queue's current status:\n");
-    printf("Number of messages in queue: %ld\n", buf.msg_qnum);
-    printf("Maximum number of bytes allowed in queue: %ld\n", buf.msg_qbytes);
-    printf("PID of last msgsnd: %d\n", buf.msg_lspid);
-    printf("PID of last msgrcv: %d\n", buf.msg_lrpid);
-
-    return 0;
-}
-
-```
-
-也可以直接将pid作为全局变量储存？fork时创建全局变量的副本，但是对其的修改不会被共享，对于这一特性，记录pid倒是正适合。[source](https://stackoverflow.com/questions/4298678/after-forking-are-global-variables-shared)
 
 # 命令行工具
 ## ipcs

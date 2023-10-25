@@ -16,7 +16,7 @@ static int get_shared_block(char *filename,int size) {
     // The second argument, 0, is the project ID. If you pass 0 as the project ID, ftok() will generate a key based solely on the given filename.
     if (key == IPC_RESULT_ERROR){return IPC_RESULT_ERROR;}
     //get shared block --create it if it doesn't exist
-    return shmget(key,size,0644| IPC_CREAT);
+    return shmget(key,size,0666| IPC_CREAT);
 }
 
 char * attach_memory_block(char *filename,int size){

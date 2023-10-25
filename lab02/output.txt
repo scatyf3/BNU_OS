@@ -1,39 +1,96 @@
-(CLIENT 24386) sent message 10
-server is runningserver is calledi'm before msqid_dsi'm after msqid_dsserver init the serverserver is looping(SERVER 393216) received message 10 from CLIENT 24386
-(SERVER 393216) send return message 10 to CLIENT 24386
-server is looping(SERVER 393216) received message 10 from CLIENT 24240
-(SERVER 393216) send return message 10 to CLIENT 24240
-server is runningserver is calledi'm before msqid_dsi'm after msqid_dsserver init the serverserver is looping(SERVER 393216) received message 10 from CLIENT 24240
-(SERVER 393216) send return message 10 to CLIENT 24240
-server is looping(SERVER 393216) received message 10 from CLIENT 24239
-(SERVER 393216) send return message 10 to CLIENT 24239
-server is looping(SERVER 393216) received message 10 from CLIENT 24239
-(SERVER 393216) send return message 10 to CLIENT 24239
-(CLIENT 24345) received return message 10 from SERVER24240
-(CLIENT 24345) sent message 9
-(CLIENT 24345) received return message 9 from SERVER24345
-(CLIENT 24345) sent message 8
-(CLIENT 24345) received return message 8 from SERVER24345
-(CLIENT 24345) sent message 7
-server is runningserver is calledi'm before msqid_dsi'm after msqid_dsserver init the serverserver is looping(SERVER 24385) received message -1925087124 from CLIENT 24345
-(SERVER 24385) send return message -1925087124 to CLIENT 24345
-(CLIENT 24345) received return message 7 from SERVER24345
-(CLIENT 24345) sent message 6
-server is looping(SERVER 24385) received message -1925087124 from CLIENT 24345
-(SERVER 24385) send return message -1925087124 to CLIENT 24345
-server is looping(SERVER 393216) received message 6 from CLIENT 24239
-(SERVER 393216) send return message 6 to CLIENT 24239
-server is looping(SERVER 393216) received message 6 from CLIENT 24239
-(SERVER 393216) send return message 6 to CLIENT 24239
-server is looping(SERVER 393216) received message 6 from CLIENT 24239
-(SERVER 393216) send return message 6 to CLIENT 24239
-server is looping(SERVER 393216) received message 6 from CLIENT 24239
-(SERVER 393216) send return message 6 to CLIENT 24239
-server is looping(SERVER 393216) received message 6 from CLIENT 24239
-(SERVER 393216) send return message 6 to CLIENT 24239
-server is looping(SERVER 393216) received message 6 from CLIENT 24239
-(SERVER 393216) send return message 6 to CLIENT 24239
-server is looping(SERVER 393216) received message 6 from CLIENT 24239
-(SERVER 393216) send return message 6 to CLIENT 24239
-server is looping(SERVER 393216) received message 6 from CLIENT 24239
-(SERVER 393216) send return message 6 to CLIENT 24239
+/Users/juanitahowe/Documents/GitHub/BNU_OS/msg_queue
+server is called,my pid is 69382
+server is looping and counter = 10
+(SERVER 69382) received message -2059080816 from CLIENT 69383
+(SERVER 69382) received message 7740664 from CLIENT 69384
+client is called, my pmtpye is 69384, my arg is 3
+(CLIENT 69384) sent message 10
+client is called, my pmtpye is 69383, my arg is 2
+(CLIENT 69383) sent message 10
+(SERVER 69382) send return message 10 to CLIENT 69383
+(SERVER 69382) send return message 10 to CLIENT 69384
+(CLIENT 69383) received return message 10 from SERVER69382
+server is looping and counter = 9
+(CLIENT 69383) sent message 9
+(SERVER 69382) received message 10 from CLIENT 69383
+(SERVER 69382) received message 8 from CLIENT 69384
+(CLIENT 69384) received return message 10 from SERVER69382
+(SERVER 69382) send return message 9 to CLIENT 69383
+(SERVER 69382) send return message 9 to CLIENT 69384
+server is looping and counter = 8
+(CLIENT 69383) received return message 9 from SERVER69382
+(SERVER 69382) received message 9 from CLIENT 69383
+(SERVER 69382) received message 10 from CLIENT 69384
+(CLIENT 69383) sent message 8
+(CLIENT 69383) received return message 9 from SERVER69382
+(CLIENT 69383) sent message 7
+(CLIENT 69383) received return message 8 from SERVER69382
+(SERVER 69382) send return message 8 to CLIENT 69383
+(CLIENT 69384) sent message 9
+(SERVER 69382) send return message 8 to CLIENT 69384
+server is looping and counter = 7
+(SERVER 69382) received message 8 from CLIENT 69383
+(CLIENT 69383) sent message 6
+(SERVER 69382) received message 9 from CLIENT 69384
+(CLIENT 69384) received return message 8 from SERVER69382
+(CLIENT 69384) sent message 8
+(SERVER 69382) send return message 7 to CLIENT 69383
+(SERVER 69382) send return message 7 to CLIENT 69384
+server is looping and counter = 6
+(CLIENT 69383) received return message 7 from SERVER69382
+(CLIENT 69384) received return message 7 from SERVER69382
+(SERVER 69382) received message 7 from CLIENT 69383
+(CLIENT 69383) sent message 5
+(SERVER 69382) received message 8 from CLIENT 69384
+(SERVER 69382) send return message 6 to CLIENT 69383
+(SERVER 69382) send return message 6 to CLIENT 69384
+server is looping and counter = 5
+(CLIENT 69383) received return message 6 from SERVER69382
+(SERVER 69382) received message 6 from CLIENT 69383
+(CLIENT 69383) sent message 4
+(SERVER 69382) received message 10 from CLIENT 69384
+(CLIENT 69383) received return message 6 from SERVER69382
+(CLIENT 69383) sent message 3
+(CLIENT 69383) received return message 5 from SERVER69382
+(SERVER 69382) send return message 5 to CLIENT 69383
+(SERVER 69382) send return message 5 to CLIENT 69384
+(CLIENT 69383) sent message 2
+server is looping and counter = 4
+(SERVER 69382) received message 5 from CLIENT 69383
+(SERVER 69382) received message 9 from CLIENT 69384
+(CLIENT 69383) received return message 5 from SERVER69382
+(CLIENT 69383) sent message 1
+(SERVER 69382) send return message 4 to CLIENT 69383
+(SERVER 69382) send return message 4 to CLIENT 69384
+server is looping and counter = 3
+(CLIENT 69383) received return message 4 from SERVER69382
+(SERVER 69382) received message 4 from CLIENT 69383
+(SERVER 69382) received message 8 from CLIENT 69384
+(SERVER 69382) send return message 3 to CLIENT 69383
+(SERVER 69382) send return message 3 to CLIENT 69384
+server is looping and counter = 2
+(SERVER 69382) received message 3 from CLIENT 69383
+(SERVER 69382) received message 7 from CLIENT 69384
+(CLIENT 69384) sent message 7
+(CLIENT 69384) received return message 4 from SERVER69382
+(SERVER 69382) send return message 2 to CLIENT 69383
+(SERVER 69382) send return message 2 to CLIENT 69384
+server is looping and counter = 1
+(SERVER 69382) received message 2 from CLIENT 69383
+(SERVER 69382) received message 6 from CLIENT 69384
+(CLIENT 69384) sent message 6
+(CLIENT 69384) received return message 3 from SERVER69382
+(SERVER 69382) send return message 1 to CLIENT 69383
+(SERVER 69382) send return message 1 to CLIENT 69384
+(CLIENT 69384) sent message 5
+(CLIENT 69384) received return message 3 from SERVER69382
+(CLIENT 69384) sent message 4
+(CLIENT 69384) received return message 2 from SERVER69382
+(CLIENT 69384) sent message 3
+(CLIENT 69384) received return message 2 from SERVER69382
+(CLIENT 69384) sent message 2
+(CLIENT 69384) received return message 1 from SERVER69382
+(CLIENT 69384) sent message 1
+(CLIENT 69384) received return message 1 from SERVER69382
+
+Process finished with exit code 0
