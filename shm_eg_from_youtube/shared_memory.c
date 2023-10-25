@@ -4,9 +4,11 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include<sys/semaphore.h>
 #include "shared_memory.h"
 
-#define IPC_RESULT_ERROR (-1)
+//file name is a "seed"
+
 
 static int get_shared_block(char *filename,int size) {
     key_t key;
