@@ -30,11 +30,15 @@ int main(int argc,char *argv[]){
         printf("ERROR: couldn't get block\n");
         return -1;
     }
-    for(int i=0;i<NUM_ITERATIONS;i++){
-        sem_wait(sem_cons);//wait for sig from consumer
-        printf("Writing %s\n",argv[1]);
-        strncpy(block,argv[1],BLOCK_SIZE);
-        sem_post(sem_prod);//signal something is produced
+    int options;
+    while(true){
+        scanf("%d",&options);
+        if(options==1){
+            sem_wait(sem_cons);//wait for sig from consumer
+            printf("Writing %s\n",argv[1]);
+            strncpy(block,argv[1],BLOCK_SIZE);
+            sem_post(sem_prod);//signal something is produced
+        }
     }
     sem_close(sem_prod);
     sem_close(sem_cons);

@@ -270,3 +270,28 @@ server is looping and counter = 1
 
 # 总结和感想
 ## 关于系统调用
+系统调用的参数比较复杂，而且若是一个参数搞错则效果与预想效果偏差极大，而且较难debug，于是一定要阅读明白之后再写程序，其中重要的细节如下：
+
+### msg_queue 里传递的消息格式
+在msg_queue里传递的格式有特定的要求:
+* 结构体里的第一个元素是一个数据类型为long的message type
+* 实际接收消息的缓冲区，建议为一个数组或者结构体较为便利，具体细节参考[这个回答](https://stackoverflow.com/questions/66843903/structure-of-msg-in-ipc-message-queues)
+
+```c
+struct msgbuf {
+    long mtype;       /* message type, must be > 0 */
+    char mtext[1];    /* message data */
+};
+```
+
+### msgget
+注意事项：server端flag=`0777|IPC_CREAT`，0777代表文件权限，含义是表示创建的消息队列的访问权限为所有者、所属组和其他用户都具有读、写和执行权限，IPC_CREAT代表创建队列。而client端flag=`0777`，无需重复创建新的队列
+
+### msgrcv 中msgtyp参数
+* msgtyp：指定要接收的消息类型。
+    * 如果为 0，则表示接收队列中的第一条消息。
+    * 如果不为0，接受mtype==msgtype的消息
+
+## 关于实验设计
+在这个实验中，如何设计msgtyp也是一个重要的点，需注意我们要区分server发送给c1还是c2的信息，以防止一个进程饥饿
+
