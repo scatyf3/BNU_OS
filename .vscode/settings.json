@@ -66,7 +66,9 @@
         "vector": "cpp",
         "algorithm": "cpp",
         "__verbose_abort": "cpp",
-        "semaphore.h": "c"
+        "semaphore.h": "c",
+        "iostream": "cpp",
+        "thread": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

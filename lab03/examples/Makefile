@@ -1,7 +1,7 @@
-CC=clang++
+CC=clang
 CFLAGS=-g -Wall
-OBJS=buffer_queue.o
-EXE=producer.elf readshmem.elf
+OBJS=shared_memory.o
+EXE=writeshmem.elf readshmem.elf
 
 all: $(EXE)
 
