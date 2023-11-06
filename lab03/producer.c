@@ -13,20 +13,20 @@ sem_t* sem_mutex;
 int main() {
     //创建缓冲区和共享内存
     struct sharedMemory* shm=(struct sharedMemory*)attach_memory_block(SECRET_KEY,sizeof(&shm));
-    printf("here is shm with adress %d\n",shm);
+    printf("here is shm with address %d\n",shm);
     //初始化共享内存
     create_sems();
     // 循环等待用户的输入
     // Loop until user chooses to exit
     bool running=true;
-    char* local_buffer[BUFFERSIZE];
     while (running) {
         // Display menu
-        printf("请选择您要执行的操作：\n");
+        printf("\n==== 生产者者程序 ====\n");
         printf("1. 生产产品\n");
         printf("2. 退出\n");
         printf("3. 删除信号量和共享内存\n");
-
+        printf("====================\n");
+        printf("请输入选项：");
         // Read user's choice
         int choice;
         scanf("%d", &choice);
@@ -35,10 +35,8 @@ int main() {
         switch (choice) {
             case 1:
                 // Call the production function to add a product to the buffer
-                printf("breakpoint\n");
                 sem_wait(sem_prod);  // wait for sig from consumer
                 sem_wait(sem_mutex);
-                printf("breakpoint\n");
                 fflush(stdin);
                 fgets(shm->buffer[shm->in],sizeof(shm->buffer[shm->in]),stdin);
                 printf("Writing %s\n", shm->buffer[shm->in]);
