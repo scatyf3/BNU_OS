@@ -1,3 +1,8 @@
+---
+title: Lab report
+lang: zh-cn
+---
+
 # 实验内容
 
 1. 写两个程序，一个模拟生产者过程，一个模拟消费者过程；
@@ -57,6 +62,12 @@
 
 ```
 .
+├── assert
+│   ├── image.png
+│   ├── image_1.png
+│   ├── image_2.png
+│   ├── image_3.png
+│   └── image_4.png
 ├── doc
 │   ├── lab_requirement.md
 │   ├── 实验要求_生产者消费者.docx
@@ -70,10 +81,15 @@
 │               └── producer
 └── src
     ├── Makefile
+    ├── consumer
     ├── consumer.c
+    ├── consumer.o
+    ├── producer
     ├── producer.c
+    ├── producer.o
     ├── shared_memory.c
-    └── shared_memory.h
+    ├── shared_memory.h
+    └── shared_memory.o
 ```
 
 * `shared_memory.h `: 函数声明和常量宏
@@ -115,7 +131,7 @@ int main() {
             case 1:
                 sem_wait(sem_cons);  // wait for sig from consumer
                 sem_wait(sem_mutex);
-                if(shm->out!=INVALID){
+                if(is_valid(shm)){
                     printf("Reading %s\n", shm->buffer[shm->out]);
                     update_out_ptr(shm);
                 }
@@ -169,15 +185,16 @@ sem_t* sem_mutex;
 // 定义主函数
 int main() {
     //创建缓冲区和共享内存
+    //struct sharedMemory* shm=malloc(sizeof(&shm));
+    //init_buffer(shm);
     struct sharedMemory* shm=(struct sharedMemory*)attach_memory_block(SECRET_KEY,sizeof(&shm));
-    init_buffer(shm);
+    
     printf("here is shm with address %d\n",shm);
     //初始化共享内存
     sem_unlink(SEM_MUTEX_FNAME);
     sem_unlink(SEM_CONSUMER_FNAME);
     sem_unlink(SEM_PRODUCER_FNAME);
     create_sems();
-    init_buffer(shm);
     // 循环等待用户的输入
     // Loop until user chooses to exit
     bool running=true;
@@ -192,14 +209,13 @@ int main() {
         // Read user's choice
         int choice;
         scanf("%d", &choice);
-
         // Perform the corresponding action based on the user's choice
         switch (choice) {
             case 1:
                 // Call the production function to add a product to the buffer
                 sem_wait(sem_prod);  // wait for sig from consumer
                 sem_wait(sem_mutex);
-                if(shm->in!=INVALID){
+                if(is_valid(shm)){
                     fflush(stdin);
                     fgets(shm->buffer[shm->in],sizeof(shm->buffer[shm->in]),stdin);
                     printf("Writing %s\n", shm->buffer[shm->in]);
@@ -239,7 +255,22 @@ int main() {
     // 返回0
     return 0;
 }
+
 ```
+# 实验结果
+
+## 生产产品
+![Alt text](assert/image.png)
+## 读取内容
+![Alt text](assert/image_1.png)
+## 多进程访问和控制冲突
+![Alt text](assert/image_2.png)
+## 关闭共享内存和再次打开
+![Alt text](assert/image_3.png)
+## 删除共享内存
+![Alt text](assert/image_4.png)
+
+
 
 # 实验心得
 

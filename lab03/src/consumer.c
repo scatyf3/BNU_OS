@@ -28,7 +28,7 @@ int main() {
             case 1:
                 sem_wait(sem_cons);  // wait for sig from consumer
                 sem_wait(sem_mutex);
-                if(shm->out!=INVALID){
+                if(is_valid(shm)){
                     printf("Reading %s\n", shm->buffer[shm->out]);
                     update_out_ptr(shm);
                 }

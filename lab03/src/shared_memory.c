@@ -57,13 +57,11 @@ void create_sems(){
 }
 
 void update_in_ptr(struct sharedMemory* shm) {
-    if((shm->in==0) && (shm->out==INVALID)){shm->out=0;}//初始状态
     shm->in = (shm->in + 1) % N;
     if(shm->in==shm->out){shm->in=INVALID;}
 }
 
 void update_out_ptr(struct sharedMemory* shm) {
-    if(shm->out==INVALID){shm->out=0;}
     shm->out = (shm->out + 1) % N;
 }
 
@@ -88,7 +86,7 @@ void printSharedMemory(const struct sharedMemory *shm) {
 }
 
 
-void init_buffer(struct sharedMemory* shm){
-    shm->in=0;
-    shm->out=INVALID;
+bool is_valid(const struct sharedMemory* shm){
+    if(shm->in==shm->out && shm->out!=0 && shm->in!=0){return false;}
+    else{return true;}
 }

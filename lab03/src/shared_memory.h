@@ -25,7 +25,8 @@
 
 struct sharedMemory {
     char buffer[N][BUFFERSIZE];
-    int in, out;
+    int in;
+    int out;
 };
 
 static int get_shared_block(key_t key, int size);
@@ -37,6 +38,6 @@ void create_sems();
 void update_in_ptr(struct sharedMemory* shm);
 void update_out_ptr(struct sharedMemory* shm);
 void printSharedMemory(const struct sharedMemory* shm);
-void init_buffer(struct sharedMemory* shm);
+bool is_valid(const struct sharedMemory* shm);
 
 #endif

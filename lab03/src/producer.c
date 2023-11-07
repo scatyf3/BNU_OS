@@ -12,15 +12,16 @@ sem_t* sem_mutex;
 // 定义主函数
 int main() {
     //创建缓冲区和共享内存
+    //struct sharedMemory* shm=malloc(sizeof(&shm));
+    //init_buffer(shm);
     struct sharedMemory* shm=(struct sharedMemory*)attach_memory_block(SECRET_KEY,sizeof(&shm));
-    init_buffer(shm);
+    
     printf("here is shm with address %d\n",shm);
     //初始化共享内存
     sem_unlink(SEM_MUTEX_FNAME);
     sem_unlink(SEM_CONSUMER_FNAME);
     sem_unlink(SEM_PRODUCER_FNAME);
     create_sems();
-    init_buffer(shm);
     // 循环等待用户的输入
     // Loop until user chooses to exit
     bool running=true;
@@ -35,14 +36,13 @@ int main() {
         // Read user's choice
         int choice;
         scanf("%d", &choice);
-
         // Perform the corresponding action based on the user's choice
         switch (choice) {
             case 1:
                 // Call the production function to add a product to the buffer
                 sem_wait(sem_prod);  // wait for sig from consumer
                 sem_wait(sem_mutex);
-                if(shm->in!=INVALID){
+                if(is_valid(shm)){
                     fflush(stdin);
                     fgets(shm->buffer[shm->in],sizeof(shm->buffer[shm->in]),stdin);
                     printf("Writing %s\n", shm->buffer[shm->in]);
