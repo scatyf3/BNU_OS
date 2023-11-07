@@ -1,6 +1,4 @@
-//
-// Created by Juanita Howe on 11/6/23.
-//
+
 #include <stdio.h>
 #include "shared_memory.h"
 
@@ -12,7 +10,6 @@ sem_t* sem_mutex;
 int main() {
     // 获取共享内存标识符和信号量标识符
     struct sharedMemory* shm=(struct sharedMemory*)attach_memory_block(SECRET_KEY,sizeof(&shm));
-    init_buffer(shm);
     printf("here is shm with address %d\n",shm);
     create_sems();
     bool running=true;

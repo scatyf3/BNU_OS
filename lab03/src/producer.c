@@ -20,6 +20,7 @@ int main() {
     sem_unlink(SEM_CONSUMER_FNAME);
     sem_unlink(SEM_PRODUCER_FNAME);
     create_sems();
+    init_buffer(shm);
     // 循环等待用户的输入
     // Loop until user chooses to exit
     bool running=true;
