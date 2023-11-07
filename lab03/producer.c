@@ -13,8 +13,12 @@ sem_t* sem_mutex;
 int main() {
     //创建缓冲区和共享内存
     struct sharedMemory* shm=(struct sharedMemory*)attach_memory_block(SECRET_KEY,sizeof(&shm));
+    init_buffer(shm);
     printf("here is shm with address %d\n",shm);
     //初始化共享内存
+    sem_unlink(SEM_MUTEX_FNAME);
+    sem_unlink(SEM_CONSUMER_FNAME);
+    sem_unlink(SEM_PRODUCER_FNAME);
     create_sems();
     // 循环等待用户的输入
     // Loop until user chooses to exit
@@ -37,21 +41,33 @@ int main() {
                 // Call the production function to add a product to the buffer
                 sem_wait(sem_prod);  // wait for sig from consumer
                 sem_wait(sem_mutex);
-                fflush(stdin);
-                fgets(shm->buffer[shm->in],sizeof(shm->buffer[shm->in]),stdin);
-                printf("Writing %s\n", shm->buffer[shm->in]);
-                update_in_ptr(shm);
+                if(shm->in!=INVALID){
+                    fflush(stdin);
+                    fgets(shm->buffer[shm->in],sizeof(shm->buffer[shm->in]),stdin);
+                    printf("Writing %s\n", shm->buffer[shm->in]);
+                    update_in_ptr(shm);
+                }
+                else{
+                    printf("buffer is full\n");
+                }
+                printSharedMemory(shm);
                 sem_post(sem_cons);  // signal something is produced
                 sem_post(sem_mutex);
                 break;
             case 2:
                 // Set running flag to false and exit the loop
+                sem_close(sem_prod);
+                sem_close(sem_cons);
+                sem_close(sem_mutex);
                 running = false;
                 detach_memory_block(&shm);
                 break;
             case 3:
                 // Call the function to delete the semaphores and shared memory
                 // Set running flag to false and exit the loop
+                sem_close(sem_prod);
+                sem_close(sem_cons);
+                sem_close(sem_mutex);
                 destroy_memory_block(SECRET_KEY);
                 running = false;
                 break;

@@ -21,6 +21,7 @@
 #define bool int
 #define true 1
 #define false 0
+#define INVALID -1
 
 
 //attach a shared memory block
@@ -64,9 +65,6 @@ struct sharedMemory {            // 共享内存结构
 
 
 void create_sems(){
-    sem_unlink(SEM_MUTEX_FNAME);
-    sem_unlink(SEM_CONSUMER_FNAME);
-    sem_unlink(SEM_PRODUCER_FNAME);
     sem_t *sem_prod = sem_open(SEM_PRODUCER_FNAME, IPC_CREAT ,0777,10);
     if(sem_prod == SEM_FAILED){
         perror("sem_open/produce");
@@ -86,12 +84,39 @@ void create_sems(){
 
 void update_in_ptr(struct sharedMemory* shm) {
     shm->in = (shm->in + 1) % N;
+    if(shm->in==shm->out){shm->out=INVALID;}
 }
 
 void update_out_ptr(struct sharedMemory* shm) {
+    if(shm->out==INVALID){shm->out=0;}
     shm->out = (shm->out + 1) % N;
 }
 
+void printSharedMemory(const struct sharedMemory *shm) {
+    printf("+------------------------+\n");
+    printf("|         Buffer         |\n");
+    printf("+------------------------+\n");
+
+    for (int i = 0; i < N; i++) {
+        if (i == shm->in && i == shm->out) {
+            printf("| ->%2d: %-16s |\n", i, shm->buffer[i]);
+        } else if (i == shm->in) {
+            printf("|  >%2d: %-16s |\n", i, shm->buffer[i]);
+        } else if (i == shm->out) {
+            printf("|  <%2d: %-16s |\n", i, shm->buffer[i]);
+        } else {
+            printf("|    %2d: %-16s |\n", i, shm->buffer[i]);
+        }
+    }
+
+    printf("+------------------------+\n");
+}
+
+
+void init_buffer(struct sharedMemory* shm){
+    shm->in=0;
+    shm->out=INVALID;
+}
 
 
 #endif
