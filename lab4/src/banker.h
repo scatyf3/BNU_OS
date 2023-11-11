@@ -1,6 +1,10 @@
 #ifndef BANKER_H
 #define BANKER_H
 
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <map>
 #include <vector>
 
 using vector = std::vector<int>;
