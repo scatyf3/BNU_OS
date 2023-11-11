@@ -68,7 +68,10 @@
         "__verbose_abort": "cpp",
         "semaphore.h": "c",
         "iostream": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "stack": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
