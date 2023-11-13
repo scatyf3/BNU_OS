@@ -2,4 +2,6 @@ export/
 examples/
 .vscode/
 .idea/
-
+*.png
+warp.sh
+build.sh
