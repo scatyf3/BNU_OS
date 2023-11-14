@@ -9,6 +9,8 @@ sem_t* sem_cons;
 sem_t* sem_mutex;
 
 
+//todo 关于所有的buffer都被消耗之后，错误判断buffer已满->用信号量判断
+
 // 定义主函数
 int main() {
     //创建缓冲区和共享内存
@@ -69,6 +71,7 @@ int main() {
                 sem_close(sem_prod);
                 sem_close(sem_cons);
                 sem_close(sem_mutex);
+                //信号量销毁和暂时关闭的区别
                 destroy_memory_block(SECRET_KEY);
                 running = false;
                 break;
