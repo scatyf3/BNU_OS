@@ -1,23 +1,3 @@
-# 实验内容
-
-通过编写和调试请求页式存储管理的模拟程序以加深对请求页式存储管理方案的理解。
-
-# 实验过程
-## 1
-
-首先，我仔细阅读了实验示意图，理解了实验要求。随后我划分了任务，编写了函数的声明
-
-## 2
-
-根据算法，我实现了函数的逻辑
-
-## 3
-
-最后，我增加了`printMemoryState`这个函数，以更直观的展示内存的状态和算法的运行。在主函数中，硬编码了一些虚拟内存地址
-
-# 实验代码
-
-```c
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -131,36 +111,3 @@ int main() {
 
     return 0;
 }
-```
-
-
-# 实验结果
-
-```sh
-➜  src git:(main) ✗ ./a.out   
-Page 10815 loaded into memory.
-Memory State: 10 X X X 
-Page 6988 loaded into memory.
-Memory State: 10 6 X X 
-Page 15962 loaded into memory.
-Memory State: 10 6 15 X 
-Page 2006 loaded into memory.
-Memory State: 10 6 15 1 
-Page 12062 loaded into memory.
-Memory State: 11 6 15 1 
-Page 19611 loaded into memory.
-Memory State: 11 19 15 1 
-Page 27277 loaded into memory.
-Memory State: 11 19 26 1 
-Page 63 loaded into memory.
-Memory State: 11 19 26 0 
-Page 6699 loaded into memory.
-Memory State: 6 19 26 0 
-Page 15437 loaded into memory.
-Memory State: 6 15 26 0 
-Page 32351 loaded into memory.
-Memory State: 6 15 31 0 
-Page 10780 loaded into memory.
-Memory State: 6 15 31 10 
-Memory State: 6 15 31 10 
-```
